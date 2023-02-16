@@ -1,0 +1,5 @@
+# Issue 1
+For window issue
+    - Getting the alerts in the main window, not on sub windows
+solution:
+    - We can add one more button in the alert and ask the user whether he/she wants to modify the sub window or not
