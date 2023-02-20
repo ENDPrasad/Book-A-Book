@@ -3,14 +3,14 @@ from tkinter import *
 from pages.Base import Base
 
 
-class HomePage():
-    def __init__(self, adminDetails) -> None:
+class UserHomePage():
+    def __init__(self, userDetails) -> None:
         # super(self).__init__(self)
         self.window = Base().window
         self.window.title('Book Management System')
-        self.adminDetails = adminDetails
-        print(self.adminDetails)
-        label = Label(self.window, text='Hello '+ self.adminDetails[0][0])
+        self.userDetails = userDetails
+        print(self.userDetails)
+        label = Label(self.window, text='Hello '+ self.userDetails[0][0])
         label.pack()
     
 

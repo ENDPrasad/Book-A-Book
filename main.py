@@ -1,13 +1,16 @@
+
 from tkinter import *
 from tkinter import ttk
 from pages.AdminLogin import AdminPage
-
 from pages.Base import Base
 from pages.UserLogin import UserLogin
+from pages.db import Database
 from utils.constants import *
 
 def gotoLoginPage():
     user = UserLogin()
+    user.loadLoginPage()
+    user.loadUI()
 
 def gotoAdminLogin():
     admin = AdminPage()
@@ -16,9 +19,7 @@ def gotoAdminLogin():
     admin.loadUI()
 
 def main():
-    app = Base()
-    root = app.window
-    app.startSQLServer()
+    root = Base().window
     label = Label(root, text='Book Management System', font='lucida 25 bold', bg='#ECF2FF')
     label.pack()
     adminButton = Button(root, text="Admin", command=gotoAdminLogin, bg=button_bg_color, fg='white', width=20, height=3, font='lucida 17 bold')
@@ -32,4 +33,5 @@ def main():
     root.mainloop()
 
 if __name__ == '__main__':
+    # db = Database()
     main()

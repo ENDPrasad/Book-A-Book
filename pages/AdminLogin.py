@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from pages.Base import Base
+from pages.db import Database
 from pages.home import HomePage
 from utils.constants import *
 
@@ -12,13 +13,22 @@ class AdminPage():
         # super(self).__init__(self)
         self.window = Base().window
         self.window.title('Admin Login Page')
+        self.db = Database()
     
     # Login to check credentials are correct or not and then
     # need to log the admin in
-    def login(self):
-        self.window.destroy()
-        home = HomePage()
-        pass
+    def login(self, userName, password):
+        userAvailable = self.db.checkAdminExists(userName.get())
+        if userAvailable.count == 0:
+            messagebox.askokcancel('Error!', message='User not registerd!!')
+        else:
+            adminDetails = self.db.loginAdmin(userName.get(), password.get())
+            if adminDetails.count == 0:
+                messagebox.askokcancel('Error!', message='Either username or password is wrong!!')
+            else:
+                self.window.destroy()
+                home = HomePage(adminDetails)
+                home.loadUI()
 
     # To load Login page
     def loadLoginPage(self):
@@ -32,7 +42,7 @@ class AdminPage():
         passLabel.pack(pady=3)
         password = ttk.Entry(labelFrame, width=30)
         password.pack(pady=3)
-        submit = Button(labelFrame, text='Login', command=self.login,fg='white', bg=button_bg_color, font='Lucida 12 bold')
+        submit = Button(labelFrame, text='Login', command=partial(self.login, userName, password),fg='white', bg=button_bg_color, font='Lucida 12 bold')
         submit.pack(pady=3)
 
         message = Label(labelFrame, text='Not a user?', font='Lucida 10', bg=labelFrameBG)
@@ -48,6 +58,7 @@ class AdminPage():
             if nameField.get() == '' or mailField.get() == '' or passwordField == '' or conatactField == '':
                 messagebox.askokcancel(title= 'Error!', message='Required fields missing?')
             else:
+                self.db.addNewAdmin(nameField.get(), mailField.get(), passwordField.get(), conatactField.get())
                 messagebox.showinfo(title='Success', message='Registered successfully!!')
                 self.window.destroy()
                 # self.makeTopLevel()
