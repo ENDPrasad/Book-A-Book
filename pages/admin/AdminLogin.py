@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from pages.Base import Base
 from pages.db import Database
-from pages.home import HomePage
+from pages.admin.home import HomePage
 from utils.constants import *
 
 
@@ -28,7 +28,8 @@ class AdminPage():
             else:
                 self.window.destroy()
                 home = HomePage(adminDetails)
-                home.loadUI()
+                # home.loadDashboard()
+                # home.loadUI()
 
     # To load Login page
     def loadLoginPage(self):

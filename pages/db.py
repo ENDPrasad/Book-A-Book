@@ -95,6 +95,33 @@ class Database:
         except mysql.connector.Error as e:
             print("Failed to create a user: "+e.msg)
             return []
+    
+    def checkBookExists(self, name):
+        try:
+            
+            query="select * from books where name='"+name+"'"
+            self.cursor.execute(query)
+            data = self.cursor.fetchall()
+            return data
+        except mysql.connector.Error as e:
+            print("Failed to create a user: "+e.msg)
+            return []
+
+    def addNewBook(self, name, price, publisher_name, published_year, book_store, quantity):
+        try:  
+            bookExists = self.checkBookExists(name=name)
+            print(bookExists)
+            if len(bookExists) >= 1:
+                quantity = str(int(quantity) + int(bookExists[0][5]))
+                query = "UPDATE books SET quantity = "+ quantity+" WHERE name='"+name+"'"
+            else:
+                query="INSERT INTO books ( name, price, publisher_name, published_year, book_store, quantity) VALUES('"+ name +"', '"+price+"', '"+ publisher_name+"', '"+ published_year+"', '"+ book_store+"', '"+ quantity+"')"
+            self.cursor.execute(query)
+            self.connection.commit()
+            # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
+            print('Book added successfully')
+        except mysql.connector.Error as e:
+            print("Failed to add a book: "+e.msg)
 
 
 # db = Database()

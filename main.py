@@ -1,9 +1,8 @@
-
 from tkinter import *
 from tkinter import ttk
-from pages.AdminLogin import AdminPage
+from pages.admin.AdminLogin import AdminPage
 from pages.Base import Base
-from pages.UserLogin import UserLogin
+from pages.user.UserLogin import UserLogin
 from pages.db import Database
 from utils.constants import *
 
@@ -11,6 +10,7 @@ def gotoLoginPage():
     user = UserLogin()
     user.loadLoginPage()
     user.loadUI()
+
 
 def gotoAdminLogin():
     admin = AdminPage()

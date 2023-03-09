@@ -5,8 +5,8 @@ from tkinter import messagebox
 
 from pages.Base import Base
 from pages.db import Database
-from pages.home import *
-from pages.userHome import UserHomePage
+from pages.admin.home import *
+from pages.user.userHome import UserHomePage
 from utils.constants import *
 
 
@@ -30,6 +30,7 @@ class UserLogin():
             else:
                 self.window.destroy()
                 home = UserHomePage(userDetails)
+                home.loadDashboard()
                 home.loadUI()
 
     # To load Login page
