@@ -20,12 +20,13 @@ class AdminPage():
     def login(self, userName, password):
         userAvailable = self.db.checkAdminExists(userName.get())
         if userAvailable.count == 0:
-            messagebox.askokcancel('Error!', message='User not registerd!!')
+            messagebox.askokcancel('Error!', message='User not registered!!')
         else:
             adminDetails = self.db.loginAdmin(userName.get(), password.get())
             if adminDetails.count == 0:
                 messagebox.askokcancel('Error!', message='Either username or password is wrong!!')
             else:
+                print('Admin Details:', adminDetails)
                 self.window.destroy()
                 home = HomePage(adminDetails)
                 # home.loadDashboard()

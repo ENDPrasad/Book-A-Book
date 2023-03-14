@@ -42,14 +42,15 @@ class Database:
             self.cursor.execute(query)
             data = self.cursor.fetchall()
             if data.count != 0:
-                # print(data[0])
+                print('Data - ',data[0])
                 return data
             else:
                 print("User not existed!!")
+                print('User logged in successfully')
+                # return []
             self.connection.commit()
             # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
-            print('User added successfully')
-            return []
+            # return []
         except mysql.connector.Error as e:
             print("Failed to create a user: "+e.msg)
             return []
@@ -107,7 +108,7 @@ class Database:
             print("Failed to create a user: "+e.msg)
             return []
 
-    def addNewBook(self, name, price, publisher_name, published_year, book_store, quantity):
+    def addNewBook(self, name, price, publisher_name, published_year, book_store, quantity, author):
         try:  
             bookExists = self.checkBookExists(name=name)
             print(bookExists)
@@ -115,7 +116,7 @@ class Database:
                 quantity = str(int(quantity) + int(bookExists[0][5]))
                 query = "UPDATE books SET quantity = "+ quantity+" WHERE name='"+name+"'"
             else:
-                query="INSERT INTO books ( name, price, publisher_name, published_year, book_store, quantity) VALUES('"+ name +"', '"+price+"', '"+ publisher_name+"', '"+ published_year+"', '"+ book_store+"', '"+ quantity+"')"
+                query="INSERT INTO books ( name, price, author, published_year, book_store, quantity, publisher) VALUES('"+ name +"', '"+price+"', '"+ author+"', '"+ published_year+"', '"+ book_store+"', '"+ quantity+"', '"+ publisher_name+"')"
             self.cursor.execute(query)
             self.connection.commit()
             # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
@@ -123,7 +124,19 @@ class Database:
         except mysql.connector.Error as e:
             print("Failed to add a book: "+e.msg)
 
+    def getBooks(self, bookName, zipCode):
+        pass
 
+    def getBooks(self):
+        try:
+            query="select * from books"
+            self.cursor.execute(query)
+            data = self.cursor.fetchall()
+            return data
+        except mysql.connector.Error as e:
+            print("Failed to load the books: "+e.msg)
+            return []   
+               
 # db = Database()
 # db.loginAdmin('a', 'b')
 # db.addNewAdmin('mehu', 'mehu@hotmail.com', 'DipuLesbo', '6969696969')

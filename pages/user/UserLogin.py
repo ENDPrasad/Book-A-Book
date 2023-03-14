@@ -30,8 +30,8 @@ class UserLogin():
             else:
                 self.window.destroy()
                 home = UserHomePage(userDetails)
-                home.loadDashboard()
-                home.loadUI()
+                # home.loadDashboard()
+                # home.loadUI()
 
     # To load Login page
     def loadLoginPage(self):
