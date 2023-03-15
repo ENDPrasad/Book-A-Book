@@ -38,7 +38,9 @@ class UserHomePage():
         submit.pack(pady=3, side=LEFT)
 
     def searchBook(self, bookName, zipcode):
-        pass
+        data = self.db.searchBooks(bookName, zipcode)
+        print('Searched Data-', data)
+        self.loadBooks(data)
 
     # def loadBookDetails(self):
     #     sideFrame = Frame(self.window, bg=button_bg_color, width=100)
@@ -50,7 +52,7 @@ class UserHomePage():
     #     authorLabel.pack(pady=10)
 
 
-    def loadBooks(self):
+    def loadBooks(self, bookData=''):
         def loadBookDetails(event):
             sideFrame = Frame(self.window, bg=button_bg_color)
             sideFrame.pack(fill=BOTH, expand=True, side=LEFT)
@@ -66,8 +68,12 @@ class UserHomePage():
             nameLabel.pack(pady=10)
             authorLabel.pack(pady=10)
             # self.loadUI()
-
-        rows = self.db.getBooks()
+        
+        rows = ''
+        if bookData == '':
+            rows = self.db.getBooks()
+        else:
+            rows = bookData
         print("Total books:")
         print(rows)
         displayFrame = Frame(self.window, bg=button_bg_color)
@@ -79,7 +85,7 @@ class UserHomePage():
         tree.column("#2", anchor=CENTER)
         tree.heading("#2", text="Price")
         tree.column("#3", anchor=CENTER)
-        tree.heading("#3", text="Publisher Name")
+        tree.heading("#3", text="Author")
         tree.pack()
         for row in rows:
             print(row) 

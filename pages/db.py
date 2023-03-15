@@ -13,16 +13,16 @@ class Database:
             print("Failed to start MySQL: {}".format(error))
 
 
-    def addNewAdmin(self, name, email, password, contact):
+    def addNewAdmin(self, name, email, password, contact, zipCode):
         try:
             
-            query="INSERT INTO Admin ( name, email, password, contact) VALUES('"+ name +"', '"+email+"', '"+ password+"', '"+ contact+"')"
+            query="INSERT INTO Admin ( name, email, password, contact, zipCode) VALUES('"+ name +"', '"+email+"', '"+ password+"', '"+ contact+"', '"+zipCode +"')"
             self.cursor.execute(query)
             self.connection.commit()
             # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
-            print('User added successfully')
+            print('Admin added successfully')
         except mysql.connector.Error as e:
-            print("Failed to create a user: "+e.msg)
+            print("Failed to create a Admin: "+e.msg)
 
     def addNewUser(self, name, email, password, contact):
         try:
@@ -41,16 +41,16 @@ class Database:
             query="select * from Admin where email='"+userName+"' and password='"+password+"'"
             self.cursor.execute(query)
             data = self.cursor.fetchall()
-            if data.count != 0:
+            if len(data) != 0:
                 print('Data - ',data[0])
                 return data
             else:
                 print("User not existed!!")
                 print('User logged in successfully')
-                # return []
+            # return []
             self.connection.commit()
             # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
-            # return []
+            return []
         except mysql.connector.Error as e:
             print("Failed to create a user: "+e.msg)
             return []
@@ -124,8 +124,21 @@ class Database:
         except mysql.connector.Error as e:
             print("Failed to add a book: "+e.msg)
 
-    def getBooks(self, bookName, zipCode):
-        pass
+    def searchBooks(self, bookName, zipCode):
+        try:
+            query="select * from books"
+            extraQuery = ''
+            if bookName != '':
+                extraQuery += ' where name contains('+ bookName + ")"
+            # if zipCode != '':
+                # extraQuery += 'and zipCode='+zipCode
+            query += extraQuery + ";"
+            self.cursor.execute(query)
+            data = self.cursor.fetchall()
+            return data
+        except mysql.connector.Error as e:
+            print("Failed to load the books: "+e.msg)
+            return [] 
 
     def getBooks(self):
         try:

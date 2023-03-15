@@ -19,11 +19,11 @@ class AdminPage():
     # need to log the admin in
     def login(self, userName, password):
         userAvailable = self.db.checkAdminExists(userName.get())
-        if userAvailable.count == 0:
+        if len(userAvailable) == 0:
             messagebox.askokcancel('Error!', message='User not registered!!')
         else:
             adminDetails = self.db.loginAdmin(userName.get(), password.get())
-            if adminDetails.count == 0:
+            if len(adminDetails) == 0:
                 messagebox.askokcancel('Error!', message='Either username or password is wrong!!')
             else:
                 print('Admin Details:', adminDetails)
@@ -60,7 +60,7 @@ class AdminPage():
             if nameField.get() == '' or mailField.get() == '' or passwordField == '' or conatactField == '':
                 messagebox.askokcancel(title= 'Error!', message='Required fields missing?')
             else:
-                self.db.addNewAdmin(nameField.get(), mailField.get(), passwordField.get(), conatactField.get())
+                self.db.addNewAdmin(nameField.get(), mailField.get(), passwordField.get(), conatactField.get(), zipCodeField.get())
                 messagebox.showinfo(title='Success', message='Registered successfully!!')
                 self.window.destroy()
                 # self.makeTopLevel()
@@ -74,8 +74,9 @@ class AdminPage():
         labelFrame.pack(expand=True, fill=X)
         name = Label(labelFrame ,text = "Full Name", bg=labelFrameBG).grid(row = 0,column = 0)
         mail = Label(labelFrame ,text = "Email Id", bg=labelFrameBG).grid(row = 1,column = 0)
-        password = Label(labelFrame ,text = "password", bg=labelFrameBG).grid(row = 2,column = 0)
+        password = Label(labelFrame ,text = "Password", bg=labelFrameBG).grid(row = 2,column = 0)
         contact = Label(labelFrame ,text = "Contact Number", bg=labelFrameBG).grid(row = 3,column = 0)
+        zipCode = Label(labelFrame ,text = "Zip Code", bg=labelFrameBG).grid(row = 4,column = 0)
         nameField = Entry(labelFrame)
         nameField.grid(row = 0,column = 1)
         mailField = Entry(labelFrame)
@@ -84,7 +85,9 @@ class AdminPage():
         passwordField.grid(row = 2,column = 1)
         conatactField = Entry(labelFrame)
         conatactField.grid(row = 3,column = 1)
-        register = ttk.Button(labelFrame ,text="Register", command=successMessage).grid(row=4,column=0)
+        zipCodeField = Entry(labelFrame)
+        zipCodeField.grid(row = 4,column = 1)
+        register = ttk.Button(labelFrame ,text="Register", command=successMessage).grid(row=5,column=0)
         
         # self.window.grab_set()
         # self.window.attributes("-topmost", True)
