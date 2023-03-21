@@ -129,7 +129,7 @@ class Database:
             query="select * from books"
             extraQuery = ''
             if bookName != '':
-                extraQuery += ' where name contains('+ bookName + ")"
+                extraQuery += " where name contains("+ bookName + ")"
             # if zipCode != '':
                 # extraQuery += 'and zipCode='+zipCode
             query += extraQuery + ";"

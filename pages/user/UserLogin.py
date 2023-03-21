@@ -21,11 +21,11 @@ class UserLogin():
     # need to log the admin in
     def login(self, userName, password):
         userAvailable = self.db.checkUserExists(userName.get())
-        if userAvailable.count == 0:
+        if len(userAvailable) == 0:
             messagebox.askokcancel('Error!', message='User not registerd!!')
         else:
             userDetails = self.db.loginUser(userName.get(), password.get())
-            if userDetails.count == 0:
+            if len(userDetails) == 0:
                 messagebox.askokcancel('Error!', message='Either username or password is wrong!!')
             else:
                 self.window.destroy()
