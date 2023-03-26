@@ -38,7 +38,6 @@ def bookInfo(event):
     listDetails.insert(6, 'Publisher Name: '+str(book_data[0][6]))
 
 
-
 def displayBooks():
     cursor.execute("SELECT * FROM books")
     books = cursor.fetchall()

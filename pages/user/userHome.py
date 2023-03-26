@@ -42,6 +42,7 @@ class UserHomePage():
             self.db.cursor.execute("SELECT * FROM books")
             books = self.db.cursor.fetchall()
             count = 0
+            list_books.delete(0, END)
             for book in books:
                 list_books.insert(count, str(count+1)+"."+book[0])
                 count += 1

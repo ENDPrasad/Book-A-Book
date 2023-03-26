@@ -46,7 +46,6 @@ class Database:
                 return data
             else:
                 print("User not existed!!")
-                print('User logged in successfully')
             # return []
             self.connection.commit()
             # cursor.execute("INSERT INTO Admin ( name, email, password, contact) VALUES(  '"+ name +"', '"+email+", "+ password+"', "+ contact+" )")
@@ -62,7 +61,7 @@ class Database:
             query="select * from User where email='"+userName+"' and password='"+password+"'"
             self.cursor.execute(query)
             data = self.cursor.fetchall()
-            if data.count != 0:
+            if len(data) != 0:
                 print(data)
                 return data
             else:
