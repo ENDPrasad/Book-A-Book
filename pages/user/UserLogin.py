@@ -43,7 +43,7 @@ class UserLogin():
         userName.pack(pady=3)
         passLabel = Label(labelFrame, text='Password:', fg='white', bg=labelFrameBG, font='lucida 10 bold')
         passLabel.pack(pady=3)
-        password = ttk.Entry(labelFrame, width=30)
+        password = ttk.Entry(labelFrame, width=30, show="*")
         password.pack(pady=3)
         submit = Button(labelFrame, text='Login', command=partial(self.login, userName, password),fg='white', bg=button_bg_color, font='Lucida 12 bold')
         submit.pack(pady=3)

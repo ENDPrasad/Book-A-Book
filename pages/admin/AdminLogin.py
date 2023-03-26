@@ -42,7 +42,7 @@ class AdminPage():
         userName.pack(pady=3)
         passLabel = Label(labelFrame, text='Password:', fg='white', bg=labelFrameBG, font='lucida 10 bold')
         passLabel.pack(pady=3)
-        password = ttk.Entry(labelFrame, width=30)
+        password = ttk.Entry(labelFrame, width=30, show="*")
         password.pack(pady=3)
         submit = Button(labelFrame, text='Login', command=partial(self.login, userName, password),fg='white', bg=button_bg_color, font='Lucida 12 bold')
         submit.pack(pady=3)
@@ -57,8 +57,10 @@ class AdminPage():
     def loadRegisterPage(self, url):
 
         def successMessage():
-            if nameField.get() == '' or mailField.get() == '' or passwordField == '' or conatactField == '':
+            if nameField.get() == '' or mailField.get() == '' or passwordField.get() == '' or conatactField.get() == '':
                 messagebox.askokcancel(title= 'Error!', message='Required fields missing?')
+            elif not (passwordField.get().isalnum()):
+                messagebox.askokcancel(title= 'Error!', message='Password should contain uppercase and numeric characters!')
             else:
                 self.db.addNewAdmin(nameField.get(), mailField.get(), passwordField.get(), conatactField.get(), zipCodeField.get())
                 messagebox.showinfo(title='Success', message='Registered successfully!!')
