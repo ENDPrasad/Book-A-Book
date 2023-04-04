@@ -38,7 +38,7 @@ class HomePage():
 
 
         def displayBooks():
-            self.db.cursor.execute("SELECT books.* FROM books where book_store ='"+self.adminDetails[0][0]+"'")
+            self.db.cursor.execute("SELECT * FROM books where book_store ='"+self.adminDetails[0][0]+"'")
             books = self.db.cursor.fetchall()
             print(books)
             count = 0
@@ -62,24 +62,26 @@ class HomePage():
         centerLeftFrame.pack(side=LEFT)
         # center right Frame
         centerRightFrame = Frame(centerFrame, width=300, height=530, relief=SUNKEN, bg="#e0f0f0", borderwidth=2)
-        centerRightFrame.pack()  
+        centerRightFrame.pack() 
 
 
         def searchBook():
             value = bookName.get()
-            query = "SELECT books.* FROM books INNER JOIN Admin ON Admin.name = Books.book_store WHERE Books.name LIKE '%"+value+"%' "
-            if zipcode.get() != "":
-                query += "and Admin.zipCode="+zipcode.get()
+            query = "SELECT books.* FROM books INNER JOIN Admin ON Admin.name = books.book_store WHERE books.name LIKE '%"+value+"%' "
+            # if zipcode.get() != "":
+            #     query += "and Admin.zipCode="+zipcode.get()
             self.db.cursor.execute(query)
             # and Admin.zipCode="+zipcode.get()+"")
             searchedData = self.db.cursor.fetchall()
-            print(searchedData)
+            print('Search Data:',searchedData)
             if len(searchedData) != 0:
                 list_books.delete(0, END)
                 count = 0
                 for data in searchedData:
                     list_books.insert(count, str(count+1)+"."+data[0])
                     count += 1
+                list_books.bind("<<ListboxSelect>>", bookInfo)
+                
         
         # search bar
         searchBar = LabelFrame(centerRightFrame, width=300, height=200, text='Search box', bg='#9bc9ff')
@@ -102,15 +104,18 @@ class HomePage():
         tab1 = ttk.Frame(tabs)
         tab2 = ttk.Frame(tabs)
         tab3 = ttk.Frame(tabs)
+        tab4 = ttk.Frame(tabs)
         tabs.add(tab1, text='Your books', compound=LEFT)
         tabs.add(tab2, text='Orders', compound=LEFT)
         tabs.add(tab3, text='Book Management', compound=LEFT)
+        tabs.add(tab4, text='Reports', compound=LEFT)
         list_books = Listbox(tab1, width=40, height=30, bd=2)
         scroll_bar = Scrollbar(tab1, orient=VERTICAL)
         list_books.grid(row=0, column=0, padx=(10,0), pady=10, sticky=N)
         scroll_bar.config(command=list_books.yview)
         list_books.config(yscrollcommand=scroll_bar.set)
         scroll_bar.grid(row=0, column=0, sticky=N+S+E)
+
 
         displayBooks()
         # list details
@@ -130,6 +135,23 @@ class HomePage():
             except Exception as ex:
                 print('Unable to add book!!')
                 print(ex)
+        
+        def getQunatity():
+            self.db.cursor.execute("SELECT * FROM books where book_store ='"+self.adminDetails[0][0]+"'")
+            books = self.db.cursor.fetchall()
+            quantity = 0
+            for book in books:
+                quantity += book[5]
+            return quantity
+        
+        def getlessQuantityBooks():
+            self.db.cursor.execute("SELECT * FROM books where book_store ='"+self.adminDetails[0][0]+"'")
+            books = self.db.cursor.fetchall()
+            lessQuantBook = "| "
+            for book in books:
+                if book[5] <= 5:
+                    lessQuantBook += book[0] + " | "
+            return lessQuantBook
 
 
         mainFrame = Frame(tab3, bg=button_bg_color)
@@ -165,6 +187,13 @@ class HomePage():
         addBook = Button(labelFrame, text='Add New book', command=addNewBook)
         addBook.pack()
 
+        # Reports
+        totalBooks = Label(tab4, text="Unique book count: " + str(list_books.size()))
+        totalQunatity = Label(tab4, text="Total book stock: " + str(getQunatity()))
+        lessQuantBooks = Label(tab4, text="Books with less Quantity(<6): \n" + str(getlessQuantityBooks()))
+        totalBooks.pack()
+        totalQunatity.pack()
+        lessQuantBooks.pack()
 
     # To run the Admin page
     def loadUI(self):

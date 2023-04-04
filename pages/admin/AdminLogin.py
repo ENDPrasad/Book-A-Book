@@ -32,6 +32,26 @@ class AdminPage():
                 # home.loadDashboard()
                 # home.loadUI()
 
+    def changePassword(self, email, newPassword):
+        pass
+
+    def forgotPassword(self):
+        self.window = Base().window
+        self.window.title('Forgot Password Page')
+        labelFrame = LabelFrame(self.window, text='Forgot Password', bg=labelFrameBG, fg='white', highlightbackground='white', font='lucida 12 bold', relief='solid', padx=20)
+        labelFrame.pack(expand=True, fill=X)
+        userLabel = Label(labelFrame, text='Email:', fg='white', bg=labelFrameBG, font='lucida 10 bold')
+        userLabel.pack(pady=3)
+        userName = ttk.Entry(labelFrame, width=30)
+        userName.pack(pady=3)
+        passLabel = Label(labelFrame, text='New Password:', fg='white', bg=labelFrameBG, font='lucida 10 bold')
+        passLabel.pack(pady=3)
+        password = ttk.Entry(labelFrame, width=30, show="*")
+        password.pack(pady=3)
+        submit = Button(labelFrame, text='Submit', command=partial(self.changePassword, userName, password),fg='white', bg=button_bg_color, font='Lucida 12 bold')
+        submit.pack(pady=3)
+
+
     # To load Login page
     def loadLoginPage(self):
         labelFrame = LabelFrame(self.window, text='Admin Login', bg=labelFrameBG, fg='white', highlightbackground='white', font='lucida 12 bold', relief='solid', padx=20)
@@ -52,6 +72,11 @@ class AdminPage():
         register = Label(labelFrame, text='Register', font='Lucida 12 bold', bg=labelFrameBG, fg='blue')
         register.pack()
         register.bind("<Button-1>", self.loadRegisterPage)
+
+        # Forgot Password
+        forgotPass = Label(labelFrame, text='Forgot Password', font='Lucida 12 bold', bg=labelFrameBG, fg='white')
+        forgotPass.pack()
+        forgotPass.bind("<Button-2>", self.forgotPassword)
 
     # To load register page
     def loadRegisterPage(self, url):
